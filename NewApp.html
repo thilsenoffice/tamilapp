@@ -1,0 +1,302 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" />
+
+
+    <style>
+        .overall {
+            background: #061848;
+            height: 100vh;
+			display: flex;
+			flex-wrap: wrap;
+            align-content: baseline;
+        }
+
+        .output {
+            position: relative;
+            background: linear-gradient(40deg,#ff6ec4,#7873f5) !important;
+            height: 550px;
+            width: 95%;
+            margin: 0px auto;
+            margin-top: 80px;
+            display: flex;
+            justify-content: center; /* align horizontal */
+            align-items: center;
+            border-radius: 20px;
+        }
+
+        .inputbox {
+            position: relative;
+            width: 95%;
+            margin: 0px auto;
+            margin-top: 50px;
+			height: 150px;
+        }
+
+        .enterinput {
+            width: 100%;
+            height: 100px;
+            font-size: 69px;
+			max-height: 100%;
+            border: none;
+            background: none;
+            border-bottom: 4px solid #fff;
+            caret-color: #fff;
+            color: #d1d0eb;
+        }
+        .enterinput:focus-visible {
+            outline: none;
+        }
+		.swipe {
+            position: relative;
+            width: 100% !important;
+            margin: 0px auto;
+            -ms-text-justify: distribute-all-lines;
+            text-justify: distribute-all-lines;
+            text-align: justify;
+			display: flex;
+			align-items: flex-start;
+			justify-content: center;
+			flex-wrap: wrap;
+			align-content: flex-start;
+        }
+
+        .start, .prev, .findprev, .findnext, .next {
+            font-size: 35px;
+            float: left;
+            color: #fff !important;
+        }
+
+        .start {
+            float: none;
+            cursor: pointer;
+            margin-top: 10px;
+            font-size: 50px;
+            padding: 20px 100px;
+            border-radius: 20px;
+    background: linear-gradient(40deg,#a302ef,#f700ce) !important;
+    font-weight: bold;
+    border: none;
+        }
+
+        
+
+        .operate {
+            display: inline-block;
+            display: inline;
+            vertical-align: top;
+			cursor:pointer;
+			margin-left:20px;
+			margin-top:10px;
+        }
+
+        .prev {
+            clear: left;
+        }
+
+        .ouputtext {
+            color: #FFFFFF;
+            font-size: 90px;
+        }
+        .btnsection{
+            width:100%;
+            margin-bottom:50px;
+            margin-top:50px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: #132354;
+            padding: 40px 0;
+        }
+        .btnsection .btn{
+            width: 37%;
+    margin-right: 40px;
+    height: 100px;
+    border-radius: 20px;
+    background: linear-gradient(40deg,#a302ef,#f700ce) !important;
+    font-weight: bold;
+    border: none;
+    outline: none !important;
+    color: #fff !important;
+        }
+        .col-12{
+            width: 90%;
+        }
+        .btn:focus{
+            border: none;
+            outline: none;
+        }
+        .btn:active{
+            border: none;
+            outline: none;
+        }
+        .btn:focus-visible{
+            border: none;
+            outline: none;
+        }
+    </style>
+</head>
+<body>
+
+
+    <div class="container-fluid overall">
+
+        <div class="output col-12">
+            <p class="ouputtext"></p>
+        </div>
+        <div class="inputbox col-12">
+            <input class="enterinput" type="text" />
+        </div>
+        <div class="swipe col-12">
+			<div class="col-12" style="width:100%;margin-bottom:10px;margin-bottom:100px;">
+				<button class="btn start  center-block">Search</button>
+			</div>
+            <div class="col-12 btnsection">
+                <button class="btn findprev operate " disabled="disabled"	>Previous Letter</button>
+                <button class="btn findnext operate " disabled="disabled"	>Next Letter	</button>
+            </div>
+            <div class="col-12 btnsection">
+                <button class="btn prev operate " 	disabled="disabled"	>Previous Set	</button>
+                <button class="btn next operate " 	disabled="disabled"	>Next Set		</button>
+            </div>
+        </div>
+
+    </div>
+
+
+
+
+
+    <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+
+
+
+
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+
+    <script>
+        $(document).ready(function () {
+
+
+            var letterset1 = ["அ", "ஆ", "இ", "ஈ", "உ", "ஊ", "எ", "ஏ", "ஐ", "ஒ", "ஓ", "ஔ", "ஃ"];
+            var letterset2 = ["க்", "க", "கா", "கி", "கீ", "கு", "கூ", "கெ", "கே", "கை", "கொ", "கோ", "கௌ"];
+            var letterset3 = ["ங்", "ங", "ஙா", "ஙி", "ஙீ", "ஙு", "ஙூ", "ஙெ", "ஙே", "ஙை", "ஙொ", "ஙோ", "ஙௌ"];
+            var letterset4 = ["ச்", "ச", "சா", "சி", "சீ", "சு", "சூ", "செ", "சே", "சை", "சொ", "சோ", "சௌ"];
+            var letterset5 = ["ஞ்", "ஞ", "ஞா", "ஞி", "ஞீ", "ஞு", "ஞூ", "ஞெ", "ஞே", "ஞை", "ஞொ", "ஞோ", "ஞௌ"];
+            var letterset6 = ["ட்", "ட", "டா", "டி", "டீ", "டு", "டூ", "டெ", "டே", "டை", "டொ", "டோ", "டௌ"];
+            var letterset7 = ["ண்", "ண", "ணா", "ணி", "ணீ", "ணு", "ணூ", "ணெ", "ணே", "ணை", "ணொ", "ணோ", "ணௌ"];
+            var letterset8 = ["த்", "த", "தா", "தி", "தீ", "து", "தூ", "தெ", "தே", "தை", "தொ", "தோ", "தௌ"];
+            var letterset9 = ["ந்", "ந", "நா", "நி", "நீ", "நு", "நூ", "நெ", "நே", "நை", "நொ", "நோ", "நௌ"];
+            var letterset10 = ["ப்", "ப", "பா", "பி", "பீ", "பு", "பூ", "பெ", "பே", "பை", "பொ", "போ", "பௌ"];
+            var letterset11 = ["ம்", "ம", "மா", "மி", "மீ", "மு", "மூ", "மெ", "மே", "மை", "மொ", "மோ", "மௌ"];
+            var letterset12 = ["ய்", "ய", "யா", "யி", "யீ", "யு", "யூ", "யெ", "யே", "யை", "யொ", "யோ", "யௌ"];
+            var letterset13 = ["ர்", "ர", "ரா", "ரி", "ரீ", "ரு", "ரூ", "ரெ", "ரே", "ரை", "ரொ", "ரோ", "ரௌ"];
+            var letterset14 = ["ல்", "ல", "லா", "லி", "லீ", "லு", "லூ", "லெ", "லே", "லை", "லொ", "லோ", "லௌ"];
+            var letterset15 = ["வ்", "வ", "வா", "வி", "வீ", "வு", "வூ", "வெ", "வே", "வை", "வொ", "வோ", "வௌ"];
+            var letterset16 = ["ழ்", "ழ", "ழா", "ழி", "ழீ", "ழு", "ழூ", "ழெ", "ழே", "ழை", "ழொ", "ழோ", "ழௌ"];
+            var letterset17 = ["ள்", "ள", "ளா", "ளி", "ளீ", "ளு", "ளூ", "ளெ", "ளே", "ளை", "ளொ", "ளோ", "ளௌ"];
+            var letterset18 = ["ற்", "ற", "றா", "றி", "றீ", "று", "றூ", "றெ", "றே", "றை", "றொ", "றோ", "றௌ"];
+            var letterset19 = ["ன்", "ன", "னா", "னி", "னீ", "னு", "னூ", "னெ", "னே", "னை", "னொ", "னோ", "னௌ"];
+
+
+            var i = 1;
+            var j = 0;
+            var a="";
+            $('.start').click(function (e) {
+				a = $('.enterinput').val().replace(/ /g,'');
+				
+				if(a==""){
+					e.preventDefault();
+					return false;
+				}
+			
+				$('.operate').removeAttr('disabled');
+				i = 1;
+				j = 0;
+                
+                var b = letterset1[0];
+                $('.ouputtext').html(b + a);
+				
+            });
+
+            $('.findnext').click(function () {
+                j++;
+				if(j==13){
+					j=0;
+					i++;
+					if(i==20){
+						i=1;
+					}
+				}
+                if(i<=19){
+					if(j<13){						
+						var b = eval("letterset"+i);
+						b=b[j]
+						$('.ouputtext').html(b + a);
+						
+					}
+				}
+            });
+
+            $('.findprev').click(function () {
+				j--;
+				if(j==-1){
+					j=12;							
+					i--;
+					if(i==0){
+						i=19;
+					}
+				}
+				if(i>=0){
+					if(j>=0){						
+						var b = eval("letterset"+i);
+						b=b[j]
+						$('.ouputtext').html(b + a);
+						
+					}
+				}
+
+                
+				
+            });
+
+            $('.next').click(function () {
+				i++;
+				j=0;
+				if(i==20){
+					i=1;
+				}
+				var b = eval("letterset"+i);
+				b=b[j]
+				$('.ouputtext').html(b + a);
+				
+            });
+			$('.prev').click(function () {
+				i--;
+				j=0;
+				if(i==0){
+					i=19;
+				}
+				var b = eval("letterset"+i);
+				b=b[j]
+				$('.ouputtext').html(b + a);
+				
+            });
+			
+			$( ".enterinput" ).on('change keyup paste', function() {
+				$('.operate').attr('disabled','disabled');
+			});
+
+        })
+
+    </script>
+
+</body>
+</html>
